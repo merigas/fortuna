@@ -1,0 +1,41 @@
+root user
+
+$ Prompt - Normal User
+# Prompt - Root User
+
+Normal - Root user.
+
+sudo su -  => To gain root previleges from normal user
+
+1) Disable firewall on google project
+	-- One time when you create account
+
+Google Console -> Products & Services -> Networking -> Firewall Rules -> Create Firewall Rule -> 
+
+Name : all-ports
+Source Filter : "Allow from any source (0.0.0.0/0)" <-- Select this
+Allowed protocols and ports : tcp:0-65535
+
+
+And click on create.
+
+
+2) Disable firewall on server.
+	-- One time when you create/ launch a VM Instanace (Server)
+
+  a. Gain the root previleges.
+     # sudo su -
+
+  b. Go to -> https://github.com/versionit
+	 Click on Repositories
+	 Select docs repository
+	 Select vm-init.sh
+	 Select Raw
+	 Copy URL
+     # curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |  bash   
+
+
+	Verify whehter your firewall is disabled on the server or not.
+	---------------------------------------------------------------
+	# sestatus
+	# iptables -L 

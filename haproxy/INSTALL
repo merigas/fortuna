@@ -1,0 +1,39 @@
+# yum install haproxy -y
+# vim /etc/haproxy 
+<Add the gfollowing content at the end>
+------------------------------------------------------------------------------------------------
+########################
+
+frontend  main *:80
+        default_backend             web
+
+backend web
+        balance roundrobin
+        server  web1    10.142.0.5:80   check
+        server  web2    10.142.0.6:80   check
+------------------------------------------------------------------------------------------------
+Note: IP_addres may change, Take your server IP address and keep it updated here 
+
+
+# systemctl restart haproxy 
+
+On web1:
+-----------
+Assuming you installed apache web server in /opt/apache
+
+# mkdir /opt/apache/htdocs/demo
+# echo Hello from Web01 > /opt/apache/htdocs/demo/index.html
+
+On web2:
+-----------
+Assuming you installed apache web server in /opt/apache
+
+# mkdir /opt/apache/htdocs/demo
+# echo Hello from Web02 > /opt/apache/htdocs/demo/index.html
+------------------------------------------------------------------------------------------------
+
+Go to linux command line terminal and execute the following command to check the haproxy load balacing
+
+Ha Proxy IP : 35.185.20.227
+
+# while true ;do curl http://35.185.20.227/demo/index.html ;sleep 1;done

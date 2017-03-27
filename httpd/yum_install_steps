@@ -1,0 +1,19 @@
+1) Disable SELINUX.
+
+2) Install Web Server .
+  # yum install httpd 
+  # systemctl start httpd
+
+3) Verify process runnign or not.
+
+# systemctl status httpd
+# ps -ef |grep http -> Running process of http
+# netstat -lntp  -> Listening port numbers
+
+4) Copy and paste External IP of VM in browser and you see a default page .
+
+5) Keep your own documents in /var/www/html directory
+
+# cd /var/www/html
+# cat index.html     <-- Assuming already the file is created
+<h1>Hello World</h1>

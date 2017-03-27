@@ -1,2 +1,1 @@
 # fortuna
-fortuna

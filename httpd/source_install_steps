@@ -1,0 +1,194 @@
+-> You require a server.
+-> Disable SELINUX.
+
+
+1) Install required dependency packages.
+  
+   # yum install -y apr-devel apr-util-devel pcre-devel gcc 
+   
+2) Download the apache source.
+
+   # wget http://mirror.fibergrid.in/apache//httpd/httpd-2.4.25.tar.gz
+   # tar -xf httpd-2.4.25.tar.gz
+   # cd httpd-2.4.25
+   # ./configure --help (It provides all the options)
+   
+   TO Install in diffferent location then 
+   # ./configure --prefix=/d01/web01
+   # make clean 
+   # make
+   # make install 
+   
+   # cd /d01/web01
+   # ls
+   
+   
+   You would be seeing following directory structure.
+bin       	*-> All binary files
+build		     -> What build options you have used
+cgi-bin		   -> Apache Scripts
+conf		    *-> Configuration Files  
+error		     -> Error templates
+htdocs		  *-> Web Sites
+icons		     -> Icons / logos
+include		   -> Additional configuration
+logs		    *-> All log files
+man			     -> Help Info 
+manual		   -> Help Info
+modules		   -> Modules of apache
+
+
+To handle the start & Stop of web server with source you have a control script.
+Script Location : /d01/web01/bin/apachectl
+
+To start the service.
+
+# /d01/web01/bin/apachectl start 
+
+
+Download and host multiple web sites.
+
+# cd /d01/web01/htdocs
+# wget https://github.com/versionit/fortuna/blob/master/httpd/ecommerce.tgz?raw=true -O ecommerce.tgz
+# wget https://github.com/versionit/fortuna/blob/master/httpd/ers.tgz?raw=true -O ers.tgz
+
+Access the web sites from browser.
+
+http://104.196.12.24/ecommerce
+
+http://104.196.12.24/ERS/ 
+With ERS you are going to get list of files.
+TO fix it moddify the configuration.
+
+# vim /d01/web01/conf/httpd.conf
+  Change the following line
+  DirectoryIndex index.html
+  TO
+  DirectoryIndex index.html index.jsp
+  
+  <ESC>:wq   --> Save and quit
+  
+Restart the service
+# /d01/web01/bin/apachectl restart
+
+And chekc the ERS web site.
+
+------------------------------------------------------------------------
+Installing multiple Instances
+
+   # cd httpd-2.4.25
+   # ./configure --prefix=/d01/web02
+   # make clean 
+   # make
+   # make install 
+   
+   # cd /d01/web02
+   # ls
+-------------------------------------------------------------------------------
+
+
+-----------------
+VirtualHosting Configuration in Source
+-----------------
+
+Assuming you have installed web server in /d01/web01
+
+1) Make your desktop ready .
+
+	1) Disble any anti virus if you have enabled.
+	2) Open wordpad.exe with "Run as Administrator"
+	3) Open a file in wordpad.
+		C:\Windows\System32\drivers\etc\hosts
+		
+		Syntax : IP NAME
+		
+		104.196.12.24	ecommerce.versionit.com
+		104.196.12.24	ers.versionit.com
+	
+	Save the file, You can enable anti virus.
+	
+2) Verify whether the chages you have made are working or not.
+
+Open Command Prompt:
+
+	ping ecommerce.versionit.com
+	ping ers.versionit.com
+	
+	
+3) Add virtual hosts on server side.
+
+Config file : /d01/web01/conf/httpd.conf.
+
+Add the following content.
+# vim /d01/web01/conf/httpd.conf
+====================================
+<VirtualHost *:80>
+        ServerName ecommerce.versionit.com
+        DocumentRoot /d01/web01/htdocs/ecommerce
+</VirtualHost>
+
+
+<VirtualHost *:80>
+        ServerName ers.versionit.com
+        DocumentRoot /d01/web01/htdocs/ERS
+        DirectoryIndex index.jsp
+</VirtualHost>
+====================================
+
+4) Restart the service.
+
+	# /d01/web01/bin/apachectl restart 
+	
+	
+--------------------------------------------------------------------
+# yum install openssl-devel -y
+# ./configure --enable-ssl --prefix=/d01/web01
+# make clean 
+# make
+# make install
+
+
+Follow the following steps 
+
+1) Add the following line in end of main config  file
+
+# vim /d01/web01/conf/httpd.conf
+
+LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
+LoadModule ssl_module modules/mod_ssl.so
+Include conf/extra/httpd-ssl.conf
+
+2) Generate key and crt 
+# cd /d01/web01/conf
+# openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out 
+server.crt
+
+
+Simply restart your web server
+# /d01/web01/bin/apachectl restart
+
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
