@@ -1,0 +1,13 @@
+1) Install gitbash in windows
+2) ssh-keygen -f admin <-- Run this command in gitbash
+3) cat admin.pub
+
+<Copy the content and paste it under google cloud>
+
+Compute Engine -> Metadata -> ssh-keys -> Edit -> Paste is there
+
+Note: Change your username to admin in key after copying
+
+4) You can connect to linux machine from gitbash
+
+ssh -i admin admin@<PUBLIC-IP-OF-VM>
