@@ -1,0 +1,91 @@
+
+Install Vagrant:
+
+# yum install https://releases.hashicorp.com/vagrant/1.9.3/vagrant_1.9.3_x86_64.rpm -y
+
+# vagrant --version
+
+# vagrant plugin install vagrant-google
+------------------------------------
+
+Setup your google cloud to accept Vagrant connection:
+------------------------------------------------------
+
+1) Create Service account in GOOGLE.
+
+	-> Login to google cloud
+	-> Go to Google Cloud Products & Services
+	-> GO to IAM & ADMIN
+	-> Go to Service Accounts
+	-> Create Service Account
+	-> Select 
+		Name: vagrant
+		Role: Project Owner
+		Select : Furnish a new private key -> JSON
+	-> One JSON would be downloaded and copy the content of that file and paste it under server (vi /root/vagrant.json)
+
+
+2) On Linux Box where you install vagrant:
+
+# cd /root
+# ssh-keygen -f vagrant
+	-> and hit double enter
+	-> It created two files one is vagrant and other is vagrant.pub
+
+	# sed -i -e 's/root/vagrant/' vagrant.pub
+# cat vagrant.pub
+<Copy the content>
+
+3) Copy the vagrant.pub toi google cloud.
+
+	-> Go to Google Compute Engine
+	-> Go to Metadata
+	-> Go to SSH Keys
+	-> Click on Edit
+	-> COpy the vagrant.pub over here.
+	-> Click Save
+
+--------------------------------------
+
+
+Create a VM in GCE using vagrant.
+
+# cd /root
+# mkdir -p gce/vagrantdemo
+# cd gce/vagrantdemo
+# vi Vagrantfile
+<<<<<<<<<<<<<<<< ADD the follolwing content >>>>>>>>>>>>>>
+Vagrant.configure("2") do |config|
+  config.vm.box = "google/gce"
+
+  config.vm.provider :google do |google, override|
+    google.google_project_id = "mor7am"
+    google.google_client_email = "vagrant@mor7am.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/vagrant.json"
+    google.name = "vagrantdemo"
+    google.image = "centos-7-v20170327"
+    google.zone = "us-east1-b"
+
+    override.ssh.username = "vagrant"
+    override.ssh.private_key_path = "/root/vagrant"
+    #override.ssh.private_key_path = "~/.ssh/google_compute_engine"
+  end
+
+end
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>
+
+Change only these which you can find in JSON file
+
+google.google_project_id = "YOUR PROJECT"
+google.google_client_email = "YOUR EMAIL"
+
+
+
+# vagrant up
+
+
+
+
+
+
+

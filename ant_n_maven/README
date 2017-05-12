@@ -1,0 +1,55 @@
+Hi Team,
+
+Please make a build of antproj for trunk directory for revison number 2.
+
+Regards,
+Jerry.
+
+
+Hi Team,
+
+Please make a build of antproj for branch feature1 of latest revision.
+
+Regards,
+Jerry.
+
+
+
+build.xml	->  ANT Project   (Java)
+				ANT Compiler
+pom.xml		->  MAVEN Prject  (Java)
+				MAVEN Compiler
+				
+				
+Disadvantages of ANT:
+
+1) Size problem - Libraries should be local inside project 
+2) Single Project :
+3) Version issue : 
+
+
+Advantages of Maven:
+
+1) Libraries can be in central 
+2) Multiple project 
+		icicibank.com
+			netbanking
+			creditcard
+3) Version Standards:
+	Branch - Developement 		-> SNAPSHOT
+	trunk/master - Production	-> RELEASE
+
+
+
+POM - Project Object Model.
+
+GAV
+
+G - groupID			Main Project Name -> com.icicibank
+A - artifactID		Sub Project Name -> netbanking
+V - version			SNAPSHOT
+					RELEASE
+ 
+MAVEN Life Cycle :
+
+	clean  -> package -> install -> deploy

@@ -1,0 +1,7 @@
+1) Disable SELINUX and firewall.
+
+# curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
+
+2) Install SVN Server.
+
+# curl https://raw.githubusercontent.com/versionit/docs/master/install_svn.sh |bash

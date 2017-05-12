@@ -1,0 +1,84 @@
+----------------------------------------------------------------------
+Run Shell Script in Vagrant up:
+---------------------------------
+
+# vi Vagrantfile
+<<<<<<<<<<<<<<<< ADD the follolwing content >>>>>>>>>>>>>>
+Vagrant.configure("2") do |config|
+  config.vm.box = "google/gce"
+  config.vm.provision "shell", path: "/opt/init.sh"
+  
+  config.vm.provider :google do |google, override|
+    google.google_project_id = "mor7am"
+    google.google_client_email = "vagrant@mor7am.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/vagrant.json"
+    google.name = "vagrantdemo"
+    google.image = "centos-7-v20170327"
+    google.zone = "us-east1-b"
+
+    override.ssh.username = "vagrant"
+    override.ssh.private_key_path = "/root/vagrant"
+    #override.ssh.private_key_path = "~/.ssh/google_compute_engine"
+  end
+
+end
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>
+
+# vi /opt/init.sh
+<<<<<<<<<<<<<<<< ADD the follolwing content >>>>>>>>>>>>>>
+#!/bin/bash
+
+## Setting ENV includes disable SELINUX & FIREWALL and also setting autoshutdown 
+curl https://raw.githubusercontent.com/versionit/fortuna/master/vm-init.sh | bash
+
+## Install Tomcat Along with that
+
+yum install java -y
+wget http://redrockdigimark.com/apachemirror/tomcat/tomcat-9/v9.0.0.M18/bin/apache-tomcat-9.0.0.M18.tar.gz -O /opt/apache-tomcat-9.0.0.M18.tar.gz
+
+cd /opt
+tar -xf apache-tomcat-9.0.0.M18.tar.gz
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+# vagrant up
+
+
+---------------------------------------------------------------------
+Vagrant create multiple VMS
+--------------------------------------
+# vi Vagrantfile
+<<<<<<<<<<<<<>>>>>>>>>>>>>>>
+Vagrant.configure("2") do |config|
+config.vm.box = "gce"
+config.vm.define "gce2" do |gce2|
+gce2.vm.provider :google do |google, override|
+    google.google_project_id = "demo3-158214"
+    google.google_client_email = "raghu-907@demo3-158214.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/demo/demo3.json"
+    google.name = "gce2"
+    google.zone = "us-central1-c"
+    google.machine_type = "n1-standard-1"
+    google.image = "centos-7-v20170124"
+    override.ssh.username = "admin"
+    override.ssh.private_key_path = "/root/demo/admin"
+  end
+  end
+config.vm.define "gce1" do |gce1|
+gce1.vm.provider :google do |google, override|
+    google.google_project_id = "demo3-158214"
+    google.google_client_email = "raghu-907@demo3-158214.iam.gserviceaccount.com"
+    google.google_json_key_location = "/root/demo/demo3.json"
+    google.name = "gce1"
+    google.zone = "us-central1-c"
+    google.machine_type = "n1-standard-1"
+    google.image = "centos-7-v20170124"
+    override.ssh.username = "admin"
+    override.ssh.private_key_path = "/root/demo/admin"
+  end
+  end
+end
+<<<<<<<<<<<<<>>>>>>>>>>>>>>>
+
